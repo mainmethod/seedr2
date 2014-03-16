@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  string_field: MyString
+  text_field: MyText
+  integer_field: 1
+  float_field: 1.5
+  decimal_field: 9.99
+  datetime_field: 2014-03-16 16:41:53
+  timestamp_field: 2014-03-16 16:41:53
+  time_field: 2014-03-16 16:41:53
+  date_field: 2014-03-16
+  binary_field: 
+  boolean_field: false
+
+two:
+  string_field: MyString
+  text_field: MyText
+  integer_field: 1
+  float_field: 1.5
+  decimal_field: 9.99
+  datetime_field: 2014-03-16 16:41:53
+  timestamp_field: 2014-03-16 16:41:53
+  time_field: 2014-03-16 16:41:53
+  date_field: 2014-03-16
+  binary_field: 
+  boolean_field: false
