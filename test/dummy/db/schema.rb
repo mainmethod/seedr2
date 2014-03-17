@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(version: 20140317031517) do
 
   create_table "assumeds", force: true do |t|
+    t.integer  "relation_id"
     t.string   "username"
     t.string   "full_name"
     t.string   "fname"

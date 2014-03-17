@@ -1,6 +1,7 @@
 class CreateAssumeds < ActiveRecord::Migration
   def change
     create_table :assumeds do |t|
+      t.integer :relation_id
       t.string :username
       t.string :full_name
       t.string :fname

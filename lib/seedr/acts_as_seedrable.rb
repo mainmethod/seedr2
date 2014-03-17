@@ -8,13 +8,14 @@ module Seedr
     
     module ClassMethods
       # define main acts_as_seedrable method
-      # options = array of column names.  if not present, seedrable_columns becomes
-      #           all columns minus the defaults
+      # options = array of column names.  all is default.  accepts :except, :only, and :columns as arrays of symbols
       def acts_as_seedrable(options={})
-        # define instance and class attribute: seedrable_columns
-        cattr_accessor :seedrable_columns
         # set seedrable columns to options columns value, or the model's columns that make sense to seed
-        self.seedrable_columns = options[:columns] || self.column_names - ['id', 'created_at', 'updated_at']
+        excluded_columns    = [:created_at, :updated_at]
+        excluded_columns    |= options[:except] if options[:except]
+        all_columns         = options[:only] || self.column_names.map(&:to_sym)
+        columns             = (all_columns - excluded_columns).map(&:to_s)
+        @seedrable_columns  = columns.delete_if {|c| c=='id' || c.end_with?('_id')}
       end
       
       # helper method seed.  discovers each column_type in seedrable_columns and
@@ -23,11 +24,10 @@ module Seedr
         # create instance of seedrable class
         seeded = self.new
         
-        seeded.seedrable_columns.each do |col_name|
-          col_name = col_name.to_s
+        @seedrable_columns.each do |col_name|
           type = self.columns_hash[col_name].type.to_s
           # use column name to set seedrable class' attribute to corresponding Seedr type method
-          seeded.send("#{col_name}=",send_to_seedr(type,col_name))
+          seeded.send("#{col_name}=", send_to_seedr(type,col_name))
         end
         seeded
       end
