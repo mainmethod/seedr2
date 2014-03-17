@@ -8,9 +8,9 @@ module Seedr
     
     module ClassMethods
       # define main acts_as_seedrable method
-      # options = array of column names.  all is default.  accepts :except, :only, and :columns as arrays of symbols
+      # options = array of column names.  all is default.  accepts :except and :only as arrays of symbols
       def acts_as_seedrable(options={})
-        # set seedrable columns to options columns value, or the model's columns that make sense to seed
+        # set seedrable columns by options, and exclude those that make no sense to seed
         excluded_columns    = [:created_at, :updated_at]
         excluded_columns    |= options[:except] if options[:except]
         all_columns         = options[:only] || self.column_names.map(&:to_sym)
