@@ -20,6 +20,6 @@ class SeedrTest < ActiveSupport::TestCase
     assert_kind_of ActiveSupport::TimeWithZone, s.timestamp_field, "timestamp_field expected class==ActiveSupport::TimeWithZone.  Got #{s.timestamp_field.class}"
     assert_kind_of Time, s.time_field, "time_field expected class==Time.  Got #{s.time_field.class}"
     assert_kind_of Date, s.date_field, "date_field expected class==Date.  Got #{s.date_field.class}"
-    assert_kind_of TrueClass || FalseClass, s.boolean_field, "boolean_field expected class==TrueClass || FalseClass.  Got #{s.boolean_field.class}"
+    assert_equal s.boolean_field, !!s.boolean_field, "boolean_field expected class==TrueClass || FalseClass.  Got #{s.boolean_field.class}"
   end
 end

@@ -27,13 +27,40 @@ module Seedr
           col_name = col_name.to_s
           type = self.columns_hash[col_name].type.to_s
           # use column name to set seedrable class' attribute to corresponding Seedr type method
-          seeded.send("#{col_name}=",Seedr.send("#{type}"))
+          seeded.send("#{col_name}=",send_to_seedr(type,col_name))
         end
         seeded
+      end
+      
+      private
+      
+      def send_to_seedr(type,column_name)
+        column_name = column_name.underscore
+        if ['fname','f_name','first_name','firstname'].include? column_name
+          return Seedr.first_name
+        elsif ['lname','l_name','last_name','lastname'].include? column_name
+          return Seedr.last_name
+        elsif ['full_name','fullname'].include? column_name
+          return Seedr.full_name
+        elsif ['email','email_address','emailaddress','email_add','emailadd'].include? column_name
+          return Seedr.email
+        elsif ['username','user_name'].include? column_name
+          return Seedr.username
+        elsif ['m_name','middle_initial','m_initial'].include? column_name
+          return Seedr.middle_initial
+        elsif ['phone','phonenumber','phone_number'].include? column_name
+          return Seedr.phone_number
+        elsif ['company','companyname','company_name'].include? column_name
+          return Seedr.company_name
+        else
+          return Seedr.send("#{type}")
+        end
       end
     end
   end
 end
 
 # attach to ActiveRecord::Base
-ActiveRecord::Base.send :include, Seedr::ActsAsSeedrable
+ActiveSupport.on_load(:active_record) do
+  include Seedr::ActsAsSeedrable
+end
